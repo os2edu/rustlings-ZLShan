@@ -18,7 +18,7 @@
 // - The output element is going to be a Vector of strings.
 // No hints this time!
 
-// I AM NOT DONE
+// 注意: for i in 0..3 {} i是取不到3的,即左闭右开
 
 pub enum Command {
     Uppercase,
@@ -30,20 +30,39 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(String,Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+        let mut output: Vec<String> = vec![];
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
+            match command {
+                Command::Uppercase => output.push(upperStr(&string)),
+                Command::Trim => output.push(trimStr(&string)),
+                Command::Append(n) => output.push(appendStr(&string,*n)),  // 这里要手动解引用
+            }
         }
         output
+    }
+    pub fn upperStr(s: &str) -> String {
+        s.to_uppercase()
+    }
+    pub fn trimStr(s: &str) -> String {
+        s.trim().to_string()
+    }
+    pub fn appendStr(s: &str, n: usize) -> String {
+        let mut newStr = s.to_string();
+        for i in 0..n {         
+            newStr += "bar";
+        }
+        newStr
+
     }
 }
 
 #[cfg(test)]
 mod tests {
     // TODO: What do we have to import to have `transformer` in scope?
-    use ???;
+    use my_module::transformer;
     use super::Command;
 
     #[test]
